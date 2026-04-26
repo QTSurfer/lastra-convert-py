@@ -17,7 +17,7 @@
 
 ## Status
 
-`0.8.0` — published, scaffold only. The CLI entry points listed below are reserved on PyPI; full implementation lands in 0.9.
+Scaffold only. The CLI entry points listed below are reserved on PyPI; full implementation lands in `0.9`. See the PyPI badge above for the current published version.
 
 ## Install
 
