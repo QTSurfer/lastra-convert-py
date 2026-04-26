@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="logo.svg" alt="Lastra" width="420">
+  <img src="https://raw.githubusercontent.com/QTSurfer/lastra-convert-py/main/logo.svg" alt="Lastra" width="420">
 </p>
 
 <p align="center">
   <a href="https://github.com/QTSurfer/lastra-convert-py/actions/workflows/ci.yml"><img src="https://github.com/QTSurfer/lastra-convert-py/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://pypi.org/project/lastra-convert/"><img src="https://img.shields.io/pypi/v/lastra-convert" alt="PyPI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
+  <a href="https://github.com/QTSurfer/lastra-convert-py/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
 </p>
 
 <p align="center">
@@ -17,9 +17,9 @@
 
 ## Status
 
-🚧 **Pre-release** — repository scaffold while we port the converter from Java. The first published release will be `0.8.0` to align with `lastra-java`.
+`0.8.0` — published, scaffold only. The CLI entry points listed below are reserved on PyPI; full implementation lands in 0.9.
 
-## Install (planned)
+## Install
 
 ```bash
 pip install lastra-convert
@@ -56,4 +56,4 @@ This package mirrors [QTSurfer/lastra-convert](https://github.com/QTSurfer/lastr
 
 ## License
 
-Copyright 2026 Wualabs LTD. Apache License 2.0 — see [LICENSE](LICENSE).
+Copyright 2026 Wualabs LTD. Apache License 2.0 — see [LICENSE](https://github.com/QTSurfer/lastra-convert-py/blob/main/LICENSE).
