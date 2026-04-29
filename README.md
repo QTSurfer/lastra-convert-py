@@ -15,40 +15,67 @@
 
 ---
 
-## Status
-
-Scaffold only. The CLI entry points listed below are reserved on PyPI; full implementation lands in `0.9`. See the PyPI badge above for the current published version.
-
 ## Install
 
 ```bash
 pip install lastra-convert
 ```
 
-## Usage (planned CLI)
+## CLI
+
+Six commands, one per direction. Each takes `input output` plus a small flag set; run any with `-h` for the full list.
 
 ```bash
-# Lastra → Parquet
-lastra2parquet ticks.lastra ticks.parquet
+# Parquet ↔ Lastra
+parquet2lastra ticks.parquet ticks.lastra
+parquet2lastra ticks.parquet ticks.lastra --columns "ts:long:delta_varint,close:double:pongo"
+lastra2parquet ticks.lastra  ticks.parquet --compression zstd
 
-# Parquet → Lastra (auto-pick best codec per column)
-parquet2lastra ticks.parquet ticks.lastra --best
+# CSV ↔ Lastra (delimiter auto-detected: comma / tab / semicolon / pipe)
+csv2lastra     ticks.csv     ticks.lastra
+lastra2csv     ticks.lastra  ticks.csv
 
-# CSV → Lastra (with explicit schema)
-csv2lastra ticks.csv ticks.lastra --schema "ts:long:delta_varint,close:double:alp"
-
-# Lastra → Arrow IPC
-lastra2arrow ticks.lastra ticks.arrow
+# Arrow IPC ↔ Lastra
+arrow2lastra   ticks.arrow   ticks.lastra
+lastra2arrow   ticks.lastra  ticks.arrow
 ```
 
-## Library API (planned)
+Type / codec auto-detection (override with `--columns`):
+
+| Source type             | Lastra DataType | Default codec |
+|-------------------------|-----------------|---------------|
+| int8…int64 / uint*      | LONG            | DELTA_VARINT  |
+| float32 / float64       | DOUBLE          | ALP           |
+| timestamp / date / bool | LONG            | DELTA_VARINT  |
+| binary / string / other | BINARY          | VARLEN_ZSTD   |
+
+CSV column types are inferred per-column from up to the first 256 cells:
+integer if every non-empty cell parses as `int`; double if every non-empty
+cell parses as `float`; binary otherwise.
+
+## Library API
 
 ```python
-from lastra_convert import lastra_to_parquet, parquet_to_lastra
+from lastra_convert import (
+    parquet_to_lastra, lastra_to_parquet,
+    csv_to_lastra,     lastra_to_csv,
+    arrow_to_lastra,   lastra_to_arrow,
+)
 
-lastra_to_parquet("ticks.lastra", "ticks.parquet")
-parquet_to_lastra("ticks.parquet", "ticks.lastra", best=True)
+# Auto-detect every column's type + default codec.
+parquet_to_lastra("ticks.parquet", "ticks.lastra")
+
+# Per-column override.
+parquet_to_lastra(
+    "ticks.parquet", "ticks.lastra",
+    columns="ts:long:delta_varint,close:double:pongo",
+)
+
+# Decode every series column back into a Parquet (ZSTD by default).
+lastra_to_parquet("ticks.lastra", "ticks.parquet", compression="zstd")
 ```
+
+Each function returns the row count written.
 
 ## Reference implementation
 
