@@ -9,7 +9,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import pyarrow as pa
 import pyarrow.ipc as ipc
 
 from .parquet import _encode_table_to_lastra, lastra_file_to_arrow_table
@@ -43,5 +42,3 @@ def lastra_to_arrow(
     return table.num_rows
 
 
-# Silence "unused import" — kept for forward-compat downstream type hints.
-_ = pa

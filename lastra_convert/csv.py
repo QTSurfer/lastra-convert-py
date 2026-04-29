@@ -11,15 +11,10 @@ import csv
 from pathlib import Path
 
 import pandas as pd
-import pyarrow as pa
-from lastra import DataType
+from lastra import DataType, LastraWriter
 
 from ._types import DEFAULT_CODEC, infer_csv_value_type, parse_columns_arg
-from .parquet import (
-    _arrow_column_to_lastra_payload,
-    lastra_file_to_arrow_table,
-)
-from lastra import LastraWriter
+from .parquet import lastra_file_to_arrow_table
 
 
 def csv_to_lastra(
@@ -129,6 +124,3 @@ def _bytes_to_csv_str(v: object) -> str:
     return str(v)
 
 
-# Silence "unused import" while keeping the side-effect of importing pa for
-# its side benefits in callers (e.g. type hints downstream).
-_ = pa
